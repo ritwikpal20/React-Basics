@@ -1,6 +1,7 @@
 import styles from "./App.module.css";
 import React, { Component } from "react";
 import Person from "./Person/Person";
+import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
 
 // Function based Component
 // const App = (props) => {
@@ -89,15 +90,18 @@ class App extends Component {
                 <div>
                     {this.state.persons.map((person, index) => {
                         return (
-                            <Person
-                                name={person.name}
-                                age={person.age}
-                                key={person.id}
-                                change={(event) =>
-                                    this.changedNameHandler(event, index)
-                                }
-                                click={() => this.deletePersonsHandler(index)}
-                            />
+                            <ErrorBoundary key={person.id}>
+                                <Person
+                                    name={person.name}
+                                    age={person.age}
+                                    change={(event) =>
+                                        this.changedNameHandler(event, index)
+                                    }
+                                    click={() =>
+                                        this.deletePersonsHandler(index)
+                                    }
+                                />
+                            </ErrorBoundary>
                         );
                     })}
                 </div>

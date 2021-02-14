@@ -1,6 +1,11 @@
 import classes from "./Person.module.css";
 
 const person = (props) => {
+    const rnd = Math.random();
+    if (rnd > 0.9) {
+        throw new Error("Something went wrong. Try again after sometime");
+    }
+
     return (
         <div className={classes.Person}>
             {/* deleting the person on clicking first line */}
