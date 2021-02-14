@@ -1,7 +1,6 @@
-import "./App.css";
+import styles from "./App.module.css";
 import React, { Component } from "react";
 import Person from "./Person/Person";
-import Radium from "radium";
 
 // Function based Component
 // const App = (props) => {
@@ -81,19 +80,7 @@ class App extends Component {
         });
     };
     render() {
-        // button style
-        const style = {
-            backgroundColor: "green",
-            color: "white",
-            border: "solid 2px blue",
-            cursor: "pointer",
-            padding: "10px",
-            ":hover": {
-                backgroundColor: "lightGreen",
-                color: "black",
-            },
-        };
-
+        const btnClasses = [styles.Button];
         // toggling person depending on state of showPersons
         let persons = null;
         if (this.state.showPersons) {
@@ -116,27 +103,29 @@ class App extends Component {
                 </div>
             );
 
-            // changing button color on showing persons
-            style.backgroundColor = "red";
-            style[":hover"].backgroundColor = "salmon";
+            //Adding styles dynamically to button
+            btnClasses.push(styles.Red);
         }
 
         // Adding dynamic classes to paragraph
         const classes = [];
         const personsLength = this.state.persons.length;
         if (personsLength <= 2) {
-            classes.push("red");
+            classes.push(styles.red);
         }
         if (personsLength <= 1) {
-            classes.push("bold");
+            classes.push(styles.bold);
         }
 
         return (
-            <div className="App">
+            <div className={styles.App}>
                 <p className={classes.join(" ")}>
                     Your have {this.state.persons.length} persons left
                 </p>
-                <button onClick={this.togglePersonsHandler} style={style}>
+                <button
+                    onClick={this.togglePersonsHandler}
+                    className={btnClasses.join(" ")}
+                >
                     Toggle Persons
                 </button>
                 {persons}
@@ -145,4 +134,4 @@ class App extends Component {
     }
 }
 
-export default Radium(App);
+export default App;
