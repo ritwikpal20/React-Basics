@@ -1,7 +1,7 @@
 import styles from "./App.module.css";
 import React, { Component } from "react";
-import Person from "./Person/Person";
-import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
+import Persons from "../components/Persons/Persons";
+import Cockpit from "../components/Cockpit/Cockpit";
 
 // Function based Component
 // const App = (props) => {
@@ -81,57 +81,26 @@ class App extends Component {
         });
     };
     render() {
-        const btnClasses = [styles.Button];
         // toggling person depending on state of showPersons
         let persons = null;
         if (this.state.showPersons) {
             // displaying list of persons
             persons = (
-                <div>
-                    {this.state.persons.map((person, index) => {
-                        return (
-                            <ErrorBoundary key={person.id}>
-                                <Person
-                                    name={person.name}
-                                    age={person.age}
-                                    change={(event) =>
-                                        this.changedNameHandler(event, index)
-                                    }
-                                    click={() =>
-                                        this.deletePersonsHandler(index)
-                                    }
-                                />
-                            </ErrorBoundary>
-                        );
-                    })}
-                </div>
+                <Persons
+                    persons={this.state.persons}
+                    clicked={this.deletePersonsHandler}
+                    changed={this.changedNameHandler}
+                />
             );
-
-            //Adding styles dynamically to button
-            btnClasses.push(styles.Red);
-        }
-
-        // Adding dynamic classes to paragraph
-        const classes = [];
-        const personsLength = this.state.persons.length;
-        if (personsLength <= 2) {
-            classes.push(styles.red);
-        }
-        if (personsLength <= 1) {
-            classes.push(styles.bold);
         }
 
         return (
             <div className={styles.App}>
-                <p className={classes.join(" ")}>
-                    Your have {this.state.persons.length} persons left
-                </p>
-                <button
-                    onClick={this.togglePersonsHandler}
-                    className={btnClasses.join(" ")}
-                >
-                    Toggle Persons
-                </button>
+                <Cockpit
+                    persons={this.state.persons}
+                    showPersons={this.state.showPersons}
+                    clicked={this.togglePersonsHandler}
+                />
                 {persons}
             </div>
         );

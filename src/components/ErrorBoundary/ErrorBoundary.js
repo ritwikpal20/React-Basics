@@ -14,7 +14,7 @@ class ErrorBoundary extends Component {
             return (
                 <div style={{ color: "red" }}>
                     <p>Encountered some error while rendering your component</p>
-                    <p>Please contact developer if not resolved</p>
+                    <p>(This is a sample simulation error)</p>
                 </div>
             );
         } else {
