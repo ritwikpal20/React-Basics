@@ -51,14 +51,25 @@ import Cockpit from "../components/Cockpit/Cockpit";
 
 // Class based Component
 class App extends Component {
-    state = {
-        persons: [
-            { id: "1", name: "Max", age: 20 },
-            { id: "2", name: "Manu", age: 30 },
-            { id: "3", name: "Rit", age: 19 },
-        ],
-        showPersons: false,
-    };
+    constructor(props) {
+        super(props);
+        console.log("App.js Constructor");
+        this.state = {
+            persons: [
+                { id: "1", name: "Max", age: 20 },
+                { id: "2", name: "Manu", age: 30 },
+                { id: "3", name: "Rit", age: 19 },
+            ],
+            showPersons: false,
+        };
+    }
+    static getDerivedStateFromProps(props, state) {
+        console.log("App.js getDerivedStateFromProps");
+        return state;
+    }
+    componentDidMount() {
+        console.log("App.js componentDidMount");
+    }
 
     // for deleting each person
     deletePersonsHandler = (index) => {
@@ -81,6 +92,7 @@ class App extends Component {
         });
     };
     render() {
+        console.log("App.js Rendering...");
         // toggling person depending on state of showPersons
         let persons = null;
         if (this.state.showPersons) {
@@ -97,6 +109,7 @@ class App extends Component {
         return (
             <div className={styles.App}>
                 <Cockpit
+                    appTitle={this.props.appTitle}
                     persons={this.state.persons}
                     showPersons={this.state.showPersons}
                     clicked={this.togglePersonsHandler}

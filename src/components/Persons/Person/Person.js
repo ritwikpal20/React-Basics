@@ -1,6 +1,8 @@
 import classes from "./Person.module.css";
 
 const person = (props) => {
+    console.log("Person.js Rendering...");
+    // Creating custom error
     const rnd = Math.random();
     if (rnd > 0.9) {
         throw new Error("Something went wrong. Try again after sometime");

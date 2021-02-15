@@ -17,6 +17,7 @@ const cockpit = (props) => {
 
     return (
         <div>
+            <h1>Person Manager</h1>
             <p className={classes.join(" ")}>
                 Your have {props.persons.length} persons left
             </p>
