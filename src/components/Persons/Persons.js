@@ -1,16 +1,22 @@
 import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 import Person from "./Person/Person";
-import { Component } from "react";
+import { PureComponent } from "react";
 
-class Persons extends Component {
+class Persons extends PureComponent {
     static getDerivedStateFromProps(props, state) {
         console.log("Persons.js getDerivedStateFromProps ", props);
     }
-    shouldComponentUpdate(nextProps, nextState) {
-        // should return true or false depending on whether component should update or not
-        console.log("Persons.js shouldComponentUpdate ", nextProps);
-        return true;
-    }
+
+    // Dont need to implement shouldComponentUpdate , if we use PureComponent , which already checks for all props
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     // should return true or false depending on whether component should update or not
+    //     console.log("Persons.js shouldComponentUpdate ", nextProps);
+    //     if (nextProps.persons !== this.props.persons) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
     getSnapshotBeforeUpdate(prevProps, prevState) {
         console.log("Persons.js getSnapshotBeforeUpdate ", prevProps);
         return { message: "brief snapshot" };
@@ -22,6 +28,9 @@ class Persons extends Component {
             " Here are the snapshots: ",
             snapshot
         );
+    }
+    componentWillUnmount() {
+        console.log("Persons.js componentWillUnmount");
     }
     render() {
         console.log("Persons.js Rendering...");

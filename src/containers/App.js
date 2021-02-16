@@ -61,6 +61,7 @@ class App extends Component {
                 { id: "3", name: "Rit", age: 19 },
             ],
             showPersons: false,
+            showCockpit: true,
         };
     }
     static getDerivedStateFromProps(props, state) {
@@ -91,6 +92,11 @@ class App extends Component {
             showPersons: !this.state.showPersons,
         });
     };
+    toggleCockpitHandler = () => {
+        this.setState({
+            showCockpit: !this.state.showCockpit,
+        });
+    };
     render() {
         console.log("App.js Rendering...");
         // toggling person depending on state of showPersons
@@ -108,12 +114,17 @@ class App extends Component {
 
         return (
             <div className={styles.App}>
-                <Cockpit
-                    appTitle={this.props.appTitle}
-                    persons={this.state.persons}
-                    showPersons={this.state.showPersons}
-                    clicked={this.togglePersonsHandler}
-                />
+                <button onClick={this.toggleCockpitHandler}>
+                    Toggle Cockpit
+                </button>
+                {this.state.showCockpit ? (
+                    <Cockpit
+                        appTitle={this.props.appTitle}
+                        personsLength={this.state.persons.length}
+                        showPersons={this.state.showPersons}
+                        clicked={this.togglePersonsHandler}
+                    />
+                ) : null}
                 {persons}
             </div>
         );
