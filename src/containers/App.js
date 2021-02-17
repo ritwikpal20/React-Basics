@@ -2,6 +2,8 @@ import styles from "./App.module.css";
 import React, { Component } from "react";
 import Persons from "../components/Persons/Persons";
 import Cockpit from "../components/Cockpit/Cockpit";
+import Auxiliary from "../hoc/Auxiliary";
+import withClass from "../hoc/withClass";
 
 // Function based Component
 // const App = (props) => {
@@ -62,6 +64,7 @@ class App extends Component {
             ],
             showPersons: false,
             showCockpit: true,
+            changeCounter: 0,
         };
     }
     static getDerivedStateFromProps(props, state) {
@@ -84,7 +87,14 @@ class App extends Component {
         person.name = event.target.value;
         const persons = [...this.state.persons];
         persons[index] = person;
-        this.setState({ persons: persons });
+
+        // correct way of setting state if it depends on previous state, since using the other way , it is not guaranteed  to execute immediately and therefore old state might be used in case of prev state.
+        this.setState((prevState, props) => {
+            return {
+                persons: persons,
+                changeCounter: prevState.changeCounter + 1,
+            };
+        });
     };
     // for toggling between showing all persons and showing no persons
     togglePersonsHandler = () => {
@@ -113,7 +123,7 @@ class App extends Component {
         }
 
         return (
-            <div className={styles.App}>
+            <Auxiliary>
                 <button onClick={this.toggleCockpitHandler}>
                     Toggle Cockpit
                 </button>
@@ -126,9 +136,9 @@ class App extends Component {
                     />
                 ) : null}
                 {persons}
-            </div>
+            </Auxiliary>
         );
     }
 }
 
-export default App;
+export default withClass(App, styles.App);

@@ -1,5 +1,7 @@
 import classes from "./Person.module.css";
 import { Component } from "react";
+import withClass from "../../../hoc/withClass";
+import Auxiliary from "../../../hoc/Auxiliary";
 
 class Person extends Component {
     render() {
@@ -11,7 +13,7 @@ class Person extends Component {
         }
 
         return (
-            <div className={classes.Person}>
+            <Auxiliary>
                 {/* deleting the person on clicking first line */}
                 <p onClick={this.props.click}>
                     I am a {this.props.name} and i am {this.props.age} yrs old
@@ -22,9 +24,9 @@ class Person extends Component {
                     onChange={this.props.change}
                     value={this.props.name}
                 />
-            </div>
+            </Auxiliary>
         );
     }
 }
 
-export default Person;
+export default withClass(Person, classes.Person);
