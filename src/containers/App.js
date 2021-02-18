@@ -4,6 +4,7 @@ import Persons from "../components/Persons/Persons";
 import Cockpit from "../components/Cockpit/Cockpit";
 import Auxiliary from "../hoc/Auxiliary";
 import withClass from "../hoc/withClass";
+import AuthContext from "../context/auth-context";
 
 // Function based Component
 // const App = (props) => {
@@ -65,6 +66,7 @@ class App extends Component {
             showPersons: false,
             showCockpit: true,
             changeCounter: 0,
+            authenticated: false,
         };
     }
     static getDerivedStateFromProps(props, state) {
@@ -107,6 +109,13 @@ class App extends Component {
             showCockpit: !this.state.showCockpit,
         });
     };
+
+    loginHandler = () => {
+        this.setState({
+            authenticated: true,
+        });
+    };
+
     render() {
         console.log("App.js Rendering...");
         // toggling person depending on state of showPersons
@@ -127,15 +136,22 @@ class App extends Component {
                 <button onClick={this.toggleCockpitHandler}>
                     Toggle Cockpit
                 </button>
-                {this.state.showCockpit ? (
-                    <Cockpit
-                        appTitle={this.props.appTitle}
-                        personsLength={this.state.persons.length}
-                        showPersons={this.state.showPersons}
-                        clicked={this.togglePersonsHandler}
-                    />
-                ) : null}
-                {persons}
+                <AuthContext.Provider
+                    value={{
+                        authenticated: this.state.authenticated,
+                        login: this.loginHandler,
+                    }}
+                >
+                    {this.state.showCockpit ? (
+                        <Cockpit
+                            appTitle={this.props.appTitle}
+                            personsLength={this.state.persons.length}
+                            showPersons={this.state.showPersons}
+                            clicked={this.togglePersonsHandler}
+                        />
+                    ) : null}
+                    {persons}
+                </AuthContext.Provider>
             </Auxiliary>
         );
     }

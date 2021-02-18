@@ -1,7 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "./Cockpit.module.css";
+import AuthContext from "../../context/auth-context";
 
 const Cockpit = (props) => {
+    const toggleBtnRef = useRef(null);
+
     // useEffect without any 2nd args , would run at every render . useEffect with empty array as 2nd args would run first time the component renders(same as componentDidMount in class based component). If we want to run it when a property or dependency changes, we add it to the array in 2nd arg(same as componentDidUpdate).
     useEffect(() => {
         console.log("Cockpit.js useEffect");
@@ -9,6 +12,8 @@ const Cockpit = (props) => {
         setTimeout(() => {
             alert("Sending request (fake for illustration purpose)");
         }, 1000);
+
+        toggleBtnRef.current.click();
 
         // return statement is same as componentWillUnmount
         return () => {
@@ -42,9 +47,19 @@ const Cockpit = (props) => {
             <p className={classes.join(" ")}>
                 Your have {props.personsLength} persons left
             </p>
-            <button onClick={props.clicked} className={btnClasses.join(" ")}>
+            <button
+                ref={toggleBtnRef}
+                onClick={props.clicked}
+                className={btnClasses.join(" ")}
+            >
                 Toggle Persons
             </button>
+            <br />
+            <AuthContext.Consumer>
+                {(context) => {
+                    return <button onClick={context.login}>Log In</button>;
+                }}
+            </AuthContext.Consumer>
         </div>
     );
 };
