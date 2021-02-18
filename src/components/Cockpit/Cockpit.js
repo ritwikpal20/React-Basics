@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import styles from "./Cockpit.module.css";
 import AuthContext from "../../context/auth-context";
 
@@ -27,6 +27,11 @@ const Cockpit = (props) => {
             console.log("clean up in 2nd useEffect Cockpit.js");
         };
     });
+
+    //For using context object which allows us to pass data without using props
+    const authContext = useContext(AuthContext);
+    console.log(authContext);
+
     // Adding dynamic classes to paragraph
     const classes = [];
     const personsLength = props.personsLength;
@@ -55,11 +60,7 @@ const Cockpit = (props) => {
                 Toggle Persons
             </button>
             <br />
-            <AuthContext.Consumer>
-                {(context) => {
-                    return <button onClick={context.login}>Log In</button>;
-                }}
-            </AuthContext.Consumer>
+            <button onClick={authContext.login}>Log In</button>;
         </div>
     );
 };
